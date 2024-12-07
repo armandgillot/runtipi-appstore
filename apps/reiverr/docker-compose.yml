@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  reiverr:
+    image: ghcr.io/aleksilassila/reiverr:latest-v1
+    container_name: reiverr
+    ports:
+      - ${APP_PORT}:9494
+    environment:
+      - SECRET=your_secret_here # optional, used to sign JWT tokens for authentication. If not set, sessions will not persist between server restarts. Use a random string.
+      - ADMIN_USERNAME=admin # optional
+      - ADMIN_PASSWORD=admin # optional
+      - TZ=${TZ}
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    labels:
+      # Main
+      traefik.enable: true
+      traefik.http.middlewares.reiverr-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.reiverr.loadbalancer.server.port: 9494
+      # Web
+      traefik.http.routers.reiverr-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.reiverr-insecure.entrypoints: web
+      traefik.http.routers.reiverr-insecure.service: reiverr
+      traefik.http.routers.reiverr-insecure.middlewares: reiverr-web-redirect
+      # Websecure
+      traefik.http.routers.reiverr.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.reiverr.entrypoints: websecure
+      traefik.http.routers.reiverr.service: reiverr
+      traefik.http.routers.reiverr.tls.certresolver: myresolver
+      # Local domain
+      traefik.http.routers.reiverr-local-insecure.rule: Host(`reiverr.${LOCAL_DOMAIN}`)
+      traefik.http.routers.reiverr-local-insecure.entrypoints: web
+      traefik.http.routers.reiverr-local-insecure.service: reiverr
+      traefik.http.routers.reiverr-local-insecure.middlewares: reiverr-web-redirect
+      # Local domain secure
+      traefik.http.routers.reiverr-local.rule: Host(`reiverr.${LOCAL_DOMAIN}`)
+      traefik.http.routers.reiverr-local.entrypoints: websecure
+      traefik.http.routers.reiverr-local.service: reiverr
+      traefik.http.routers.reiverr-local.tls: true
+      runtipi.managed: true
