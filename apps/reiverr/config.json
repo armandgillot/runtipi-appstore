@@ -5,7 +5,7 @@
   "port": 8031,
   "id": "maintainerr",
   "tipi_version": 1,
-  "version": "1.1.1",
+  "version": "latest-v1",
   "categories": ["media", "utilities"],
   "description": "Reiverr is a project that aims to create a single UI for interacting with TMDB, Jellyfin, Radarr and Sonarr, as well as be an alternative to Overseerr.",
   "short_desc": "Reiverr is a project that aims to create a single UI for interacting with TMDB, Jellyfin, Radarr and Sonarr, as well as be an alternative to Overseerr.",
