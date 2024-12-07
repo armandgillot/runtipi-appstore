@@ -1,0 +1,28 @@
+name: Synchronize Fork
+
+on:
+  schedule:
+    # Exécute le workflow deux fois par jour : à 02h00 UTC et à 14h00 UTC
+    - cron: '0 2 * * *'
+    - cron: '0 15 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v3
+
+      - name: Add upstream repository
+        run: |
+          git remote add upstream https://github.com/runtipi/runtipi-appstore
+          git fetch upstream
+
+      - name: Merge and push changes
+        run: |
+          git checkout master
+          git merge upstream/master
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
