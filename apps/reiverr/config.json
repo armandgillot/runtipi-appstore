@@ -11,7 +11,14 @@
   "short_desc": "Reiverr is a project that aims to create a single UI for interacting with TMDB, Jellyfin, Radarr and Sonarr, as well as be an alternative to Overseerr.",
   "author": "aleksilassila",
   "source": "https://github.com/aleksilassila/reiverr",
-  "form_fields": [],
+  "form_fields": [
+    {
+      "type": "random",
+      "label": "admin password.",
+      "min": 32,
+      "env_variable": "ADMIN_PASSWORD"
+    }
+  ],
   "supported_architectures": ["arm64", "amd64"],
   "created_at": 1691943801422,
   "updated_at": 1731437302000
