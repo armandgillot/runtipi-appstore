@@ -13,9 +13,19 @@
   "source": "https://github.com/aleksilassila/reiverr",
   "form_fields": [
     {
-      "type": "random",
-      "label": "admin password.",
-      "min": 32,
+      "type": "text",
+      "label": "Username",
+      "max": 50,
+      "min": 3,
+      "required": true,
+      "env_variable": "ADMIN_USERNAME"
+    },
+    {
+      "type": "password",
+      "label": "Password",
+      "max": 50,
+      "min": 3,
+      "required": true,
       "env_variable": "ADMIN_PASSWORD"
     }
   ],

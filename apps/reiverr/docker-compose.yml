@@ -8,7 +8,7 @@ services:
       - ${APP_PORT}:9494
     environment:
       - SECRET=your_secret_here # optional, used to sign JWT tokens for authentication. If not set, sessions will not persist between server restarts. Use a random string.
-      - ADMIN_USERNAME=admin # optional
+      - ADMIN_USERNAME=${ADMIN_USERNAME} # optional
       - ADMIN_PASSWORD=${ADMIN_PASSWORD} # optional
       - TZ=${TZ}
     volumes:
