@@ -2,7 +2,7 @@ version: '3'
 
 services:
   reiverr:
-    image: ghcr.io/aleksilassila/reiverr:latest-v1
+    image: ghcr.io/aleksilassila/reiverr:v2.0.0-alpha.6
     container_name: reiverr
     ports:
       - ${APP_PORT}:9494
