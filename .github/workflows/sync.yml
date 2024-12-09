@@ -2,7 +2,7 @@ name: Synchronize Fork
 
 on:
   schedule:
-    # Exécute le workflow deux fois par jour : à 02h00 UTC et à 14h00 UTC
+    # Exécute le workflow deux fois par jour : à 02h00 UTC et à 15h00 UTC
     - cron: '0 2 * * *'
     - cron: '0 15 * * *'
 
@@ -13,16 +13,23 @@ jobs:
     steps:
       - name: Checkout fork
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # Utilise le GITHUB_TOKEN pour l'authentification
+
+      - name: Set up Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Add upstream repository
         run: |
-          git remote add upstream https://github.com/runtipi/runtipi-appstore
+          git remote | grep upstream || git remote add upstream https://github.com/runtipi/runtipi-appstore
           git fetch upstream
 
       - name: Merge and push changes
         run: |
           git checkout master
-          git merge upstream/master
+          git merge upstream/master --allow-unrelated-histories --no-edit
           git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
